@@ -1,0 +1,10 @@
+defaults:
+  - default
+
+tracking:
+  method: nearest_neighbor
+  max_link_distance_um: 15.0
+  max_time_gap: 1
+
+metrics:
+  max_match_distance_um: 7.0

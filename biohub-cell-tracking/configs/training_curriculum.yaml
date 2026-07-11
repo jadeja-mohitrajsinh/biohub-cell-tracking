@@ -1,0 +1,25 @@
+# Curriculum training configuration for all embryos
+
+# Data split
+val_split: 0.2
+
+# Model architecture
+bilinear: false
+features: [32, 64, 128, 256, 512]
+
+# Training stages (epochs per stage)
+stage_epochs: [20, 20, 20, 40]
+
+# Learning rates per stage
+learning_rates: [1e-4, 5e-5, 2e-5, 1e-5]
+
+# Training parameters
+device: cpu
+batch_size: 2
+save_dir: outputs/checkpoints
+
+# Dataset parameters
+patch_size: 96
+overlap: 32
+window_size: 16
+stride: 8

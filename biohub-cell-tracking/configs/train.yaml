@@ -1,0 +1,12 @@
+defaults:
+  - default
+
+project:
+  log_level: DEBUG
+
+dataset:
+  require_tracks: true
+  normalize: true
+
+paths:
+  outputs_dir: outputs/train

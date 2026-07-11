@@ -1,0 +1,42 @@
+# Configuration for learned association network training
+
+# Model architecture
+model:
+  input_dim: 11  # Number of features
+  hidden_dims: [64, 32, 16]
+  dropout: 0.2
+
+# Training parameters
+training:
+  device: "auto"  # auto, cuda, cpu
+  epochs: 50
+  batch_size: 512
+  learning_rate: 1e-3
+  weight_decay: 1e-5
+  grad_clip: 1.0
+  num_workers: 4
+  use_amp: true  # Mixed precision training
+
+# Loss function
+loss:
+  type: "bce"  # Binary cross-entropy
+
+# Data parameters
+data:
+  data_root: "../train"
+  embryo_split: "configs/embryo_split.json"
+  max_distance_um: 7.0  # Maximum distance for positive pairs
+  negative_ratio: 3  # Number of negative pairs per positive pair
+  use_intensity_features: true  # Whether to use intensity features
+
+# Checkpointing
+checkpointing:
+  checkpoint_dir: "outputs/checkpoints/learned_association"
+  save_frequency: 5
+  best_metric: "val_loss"
+  resume_from: null
+
+# Early stopping
+early_stopping:
+  patience: 10
+  min_delta: 1e-4

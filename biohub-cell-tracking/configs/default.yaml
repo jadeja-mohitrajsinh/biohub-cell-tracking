@@ -1,0 +1,32 @@
+project:
+  name: biohub-cell-tracking
+  seed: 42
+  log_level: INFO
+
+paths:
+  data_root: ../train
+  raw_dir: data/raw
+  processed_dir: data/processed
+  cache_dir: data/cache
+  submissions_dir: data/submissions
+  outputs_dir: outputs
+
+dataset:
+  require_tracks: true
+  normalize: false
+  quantile_low: 0.01
+  quantile_high: 0.99
+
+visualization:
+  colormap: viridis
+  dpi: 120
+  max_points: 5000
+
+metrics:
+  max_match_distance_um: 7.0
+  node_penalty_weight: 0.1
+  division_score_weight: 0.1
+
+submission:
+  zarr_format: 3
+  overwrite: true

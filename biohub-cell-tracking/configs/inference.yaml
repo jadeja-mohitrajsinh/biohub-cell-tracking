@@ -1,0 +1,13 @@
+defaults:
+  - default
+
+dataset:
+  require_tracks: false
+  normalize: true
+
+paths:
+  data_root: ../test
+  outputs_dir: outputs/inference
+
+submission:
+  overwrite: false

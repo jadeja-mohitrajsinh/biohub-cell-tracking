@@ -1,0 +1,48 @@
+# Configuration for classical baseline pipeline
+# Detection: Improved adaptive threshold + multi-scale with local maxima
+# Tracking: Hungarian optimal assignment
+
+detection:
+  method: "improved"  # Options: frangi, watershed, improved, gt_guided
+  
+  gt_guided:
+    sample_radius: 5  # Radius around GT to sample (voxels)
+    threshold_percentile: 10  # Percentile of GT intensities to use as threshold
+    sigma: 1.5  # Gaussian smoothing sigma
+    min_size: 3  # Minimum component size (voxels)
+    max_size: 1000  # Maximum component size (voxels)
+  
+  improved:
+    base_threshold: 0.05  # Base threshold (will be adapted locally)
+    sigma: 1.5  # Gaussian smoothing sigma
+    min_size: 3  # Minimum component size (voxels)
+    max_size: 1000  # Maximum component size (voxels)
+    use_adaptive: false  # Use local adaptive thresholding
+    adaptive_block_size: 15  # Block size for adaptive thresholding
+    multi_scale: false  # Disable multi-scale to reduce over-detection
+    scales: [1.0, 1.5, 2.0]  # Scales for multi-scale detection
+    use_nms: true  # Use non-maximum suppression
+    nms_radius: 5  # NMS radius in voxels
+    use_intensity_calibration: true  # Use intensity percentile threshold
+    threshold_percentile: 99.9  # Use 99.9th percentile for sparse cells
+  
+  frangi:
+    threshold: 0.05
+    sigma: 1.5
+    min_size: 3
+    max_size: 1000
+  
+  watershed:
+    threshold: 0.1
+    sigma: 1.5
+    min_size: 3
+    max_size: 1000
+
+tracking:
+  method: "hungarian"
+  max_distance_um: 7.0  # Maximum matching distance (competition limit)
+
+pipeline:
+  normalize: true
+  quantile_low: 0.01
+  quantile_high: 0.99

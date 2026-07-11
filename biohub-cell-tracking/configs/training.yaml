@@ -1,0 +1,79 @@
+# Training configuration for 3D U-Net cell detection
+
+# Model architecture
+model:
+  in_channels: 1
+  out_channels: 3  # background, center, periphery
+  spatial_dims: 3
+  channels: [32, 64, 128, 256, 512]
+  strides: [2, 2, 2, 2]
+  num_res_units: 2
+  dropout: 0.1
+  use_deep_supervision: true  # Enable deep supervision with auxiliary outputs
+
+# Training parameters
+training:
+  device: "auto"  # auto, cuda, cpu
+  epochs: 100
+  batch_size: 2
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+  grad_clip: 1.0
+  num_workers: 4
+  use_amp: true  # Mixed precision training
+
+# Loss function
+loss:
+  dice_weight: 0.5
+  focal_weight: 0.5
+  focal_gamma: 2.0
+  include_background: false
+  use_deep_supervision: true  # Enable deep supervision loss
+  deep_supervision_weights: [0.5, 0.3, 0.2]  # aux_2, aux_4, aux_8
+
+# Label generation
+labels:
+  center_radius: 2
+  periphery_radius: 4
+  center_weight: 10.0
+  periphery_weight: 5.0
+  background_weight: 1.0
+
+# Augmentation
+augmentation:
+  scale: [1.625, 0.40625, 0.40625]  # Z, Y, X physical scale in micrometers
+  xy_rotation_range: 15.0
+  z_flip_prob: 0.5
+  xy_flip_prob: 0.5
+  elastic_alpha: 1.0
+  elastic_sigma: 5.0
+  intensity_contrast_range: [0.8, 1.2]
+  intensity_brightness_range: [-0.1, 0.1]
+  noise_std: 0.02
+  blur_sigma_range: [0.5, 1.5]
+  z_scale_range: [0.9, 1.1]
+  crop_size: [32, 128, 128]  # Z, Y, X crop size for training
+
+# Data loading
+data:
+  normalize: true
+  quantile_low: 0.01
+  quantile_high: 0.99
+  cache_size: 4  # Number of samples to cache in memory
+
+# Checkpointing
+checkpointing:
+  checkpoint_dir: "outputs/checkpoints"
+  save_frequency: 5
+  best_metric: "val_loss"  # or "val_dice", "val_focal"
+  resume_from: null  # Path to checkpoint to resume from
+
+# Early stopping
+early_stopping:
+  patience: 15
+  min_delta: 1e-4
+
+# Validation split
+validation:
+  val_split: 0.2  # Fraction of training samples for validation
+  val_samples: []  # Specific sample IDs for validation (overrides val_split)

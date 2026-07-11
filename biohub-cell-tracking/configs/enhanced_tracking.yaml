@@ -1,0 +1,83 @@
+# Enhanced tracking configuration with multi-feature cost function
+
+# Detection configuration (keep existing improved detector)
+detection:
+  method: "improved"
+  improved:
+    base_threshold: 0.02
+    sigma: 1.0
+    min_size: 3
+    max_size: 1000
+    use_adaptive: false
+    multi_scale: false
+    scales: [1.0]
+    use_nms: true
+    nms_radius: 5
+    use_intensity_calibration: false
+    threshold_percentile: 99.0
+    local_max_radius: 3
+
+# Enhanced tracking configuration
+tracking:
+  method: "enhanced_hungarian"
+  use_adaptive: true
+  max_distance_um: 7.0
+  motion_radius_um: 8.0
+  enable_division: true
+  enable_post_processing: true
+  
+  cost_function:
+    distance_weight: 1.0
+    confidence_weight: 0.3
+    intensity_weight: 0.2
+    size_weight: 0.1
+    neighborhood_weight: 0.1
+    displacement_weight: 0.2
+    shape_weight: 0.15
+    max_temporal_gap: 2
+    mean_displacement_um: 2.0
+    std_displacement_um: 1.0
+    adaptive_radius: true
+    radius_multiplier: 2.0
+  
+  neighborhood_radius: 5
+  
+  division:
+    enable: true
+    max_parent_child_distance_um: 6.0
+    max_child_child_distance_um: 12.0
+    min_division_angle_deg: 20.0
+    max_division_angle_deg: 170.0
+    require_temporal_consistency: true
+    division_search_radius_um: 3.0
+    use_motion_analysis: true
+    max_parent_velocity_um_per_frame: 3.0
+    min_child_separation_velocity: 0.5
+    use_intensity_conservation: false
+  
+  post_processing:
+    enable: true
+    gap_closing:
+      max_gap_length: 3
+      max_gap_distance_um: 15.0
+      max_gap_velocity_um_per_frame: 5.0
+      use_linear_interpolation: true
+    track_continuity:
+      resolve_conflicts: true
+      merge_short_tracks: true
+      min_track_length: 3
+
+normalization:
+  enable: true
+  method: "percentile"
+  percentile_low: 1.0
+  percentile_high: 99.0
+  clip_outliers: true
+  use_robust_scale: true
+
+# Pipeline configuration
+pipeline:
+  normalize: true
+  quantile_low: 0.01
+  quantile_high: 0.99
+  use_per_embryo_config: true  # Adapt parameters per embryo

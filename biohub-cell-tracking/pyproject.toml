@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "biohub-cell-tracking"
+version = "0.1.0"
+description = "Modular research codebase for the Biohub Cell Tracking During Development Kaggle competition."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Biohub Cell Tracking Team" }]
+dependencies = [
+  "numpy>=1.26",
+  "scipy>=1.11",
+  "zarr>=3.0",
+  "pyyaml>=6.0",
+  "omegaconf>=2.3",
+  "pandas>=2.1",
+  "opencv-python-headless>=4.8",
+  "rich>=13.7",
+  "matplotlib>=3.8",
+  "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=4.1",
+  "ruff>=0.4",
+  "mypy>=1.8",
+]
+viz = [
+  "napari>=0.5",
+]
+dl = [
+  "torch>=2.2",
+  "torchvision>=0.17",
+  "monai>=1.3",
+  "torchio>=0.19",
+  "cellpose>=3.0",
+  "stardist>=0.9",
+  "laptrack>=0.17",
+  "ultrack>=0.5",
+  "trackastra>=0.3",
+  "hydra-core>=1.3",
+  "optuna>=3.5",
+]
+
+[project.scripts]
+biohub = "cli.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
